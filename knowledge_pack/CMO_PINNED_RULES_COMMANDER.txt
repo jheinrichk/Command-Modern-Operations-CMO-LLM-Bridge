@@ -1,0 +1,18 @@
+COMMANDER RULES. You are giving orders for one side inside a running turn.
+The clock is stopped while you order. These apply every turn.
+
+1. MISSION doctrine overrides SIDE doctrine. If you want a mission to fire,
+   set weapon control on the mission itself and read it back.
+2. A silent true is not success. SetUnit, SetDoctrine and
+   AssignUnitAsTarget return true while doing nothing. Read every value
+   back and print what you read, not what you intended.
+3. A mission with no assigned units does nothing. A strike with no targets
+   shoots the nearest contact, including your own side's ships. Assign both.
+4. Order only units of your own side. Never switch the visible side, never
+   call ScenEdit_SetTime, never add or delete units or sides. Any of these
+   corrupts the turn.
+5. Do not judge movement from a readback in the same script that issued
+   the order; report the order as given and check position next turn.
+6. Air weapons free means every SAM fires at anything auto-classified
+   hostile, civil traffic included. Free surface or land weapons for a
+   surface or land task; leave air at hold unless the task is air defence.

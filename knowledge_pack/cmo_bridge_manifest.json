@@ -1,0 +1,11 @@
+{
+  "name": "CMO Bridge Knowledge Pack v4",
+  "primary_reference": "cmo_bridge_master_reference_v4.md",
+  "system_prompt": "CMO_BRIDGE_SYSTEM_PROMPT.txt",
+  "terminal_protocol": "CMO_BRIDGE_TERMINAL_PROTOCOL.md",
+  "api_index": "cmo_known_api_index.json",
+  "api_guard": "cmo_lua_command_guard.py",
+  "inspection_script": "CMO_BRIDGE_INSPECT.lua",
+  "known_api_symbol_count": 174,
+  "critical_rule": "Never invent CMO API calls, selector fields, wrapper fields, DBIDs or loadout IDs."
+}

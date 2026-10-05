@@ -1,0 +1,29 @@
+PINNED RULES. Injected into every cycle regardless of the task. Each one cost
+at least a full session to learn. Read them before writing a line of Lua.
+
+1. MISSION doctrine overrides SIDE doctrine. A mission built with
+   weapon_control_status 2 will not fire even when the side is weapons free.
+   Set doctrine on the mission AND the side, and read both back.
+2. Never judge movement from a readback in the same script that issued the
+   order. A ship ordered to cruise reads FullStop immediately after. Judge it
+   next cycle. This error was made twice.
+3. Check the state flags before "correcting" state. h26_opened=1 means the
+   opening event legitimately activated missions; do not switch them off
+   because an earlier expectation said zero.
+4. Probe API symbols with _G[name] ~= nil. type() returns userdata for every
+   CMO symbol, so type(x)=="function" is always false.
+5. ScenLoaded fires on a file LOAD, not on a scenario RESET. Any setup that
+   depends on it needs a backstop trigger.
+6. UnitDestroyed with only a side filter counts every expended WEAPON. Guard
+   with tostring(u.type) == 'Weapon' or filter by TargetType.
+7. Assign units to missions at BUILD, mission inactive. Runtime reassignment
+   inside a prompt can leave the mission empty.
+8. A silent true is not success. SetUnit, SetDoctrine and AssignUnitAsTarget
+   all return true while doing nothing. Read the value back every time.
+9. An empty target list means the AI shoots the nearest contact, including
+   its own side's detained ships. Give batteries explicit targets.
+10. Size a run window to the next decision minus a margin. A longer window
+    spends the decision unattended and the AI default is taken for both sides.
+11. Never trust a name search for a DBID. Check operator country, service,
+    hypothetical and deprecated. Nine of nine aircraft were wrong-nation once.
+12. Postures drift during a run. Re-assert the ones that matter periodically.

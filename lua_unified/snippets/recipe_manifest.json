@@ -1,0 +1,1166 @@
+[
+  {
+    "heading": "Platform focused lookup",
+    "section": "How to use the Lua lookup modules in CMO scripts",
+    "topic": "misc",
+    "code": "local db = dofile(\"cmo_lookup_library_platforms_v2.lua\")\n\nlocal rec = db.lookup_exact(\"Structure Naval Dock\")\nif rec then\n    print(rec.name, rec.type, rec.cost, rec.key)\nend\n\nlocal ships = db.get_type(\"Ship\")\nprint(#ships)"
+  },
+  {
+    "heading": "All record lookup",
+    "section": "How to use the Lua lookup modules in CMO scripts",
+    "topic": "misc",
+    "code": "local db = dofile(\"cmo_lookup_library_all_v2.lua\")\n\nlocal rec = db.lookup(\"single unit port\")\nif rec then\n    print(rec.name, rec.type, rec.key)\nend\n\nlocal facilities = db.get_type(\"Facility\")\nprint(#facilities)"
+  },
+  {
+    "heading": "7.1 Altitude",
+    "section": "7. Data type library",
+    "topic": "misc",
+    "code": "{altitude = '100 FT'}\n--or\n{altitude = '100 M'}\n--or\n{altitude = '100'} -- same as 100 M"
+  },
+  {
+    "heading": "12.1 `ScenEdit_AddSide({name=...})`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "ScenEdit_AddSide({name='OPFOR'})"
+  },
+  {
+    "heading": "12.2 `ScenEdit_AddUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_AddUnit({type ='Air', unitname ='F-15C Eagle', loadoutid =16934, dbid =3500, side ='NATO', Lat=\"5.123\",Lon=\"-12.51\",alt=5000})\nScenEdit_AddUnit({type ='Ship', unitname ='GOE II Det C', dbid =3127, side ='USN', latitude=\"5.123\",longitude=\"-12.51\",proficiency='Veteran'})"
+  },
+  {
+    "heading": "12.2 `ScenEdit_AddUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_AddUnit({type ='Aircraft', name ='F-15C Eagle', loadoutid =16934, heading =0, dbid =3500, side ='NATO', Latitude=\"N46.00.00\",Longitude=\"E25.00.00\", altitude=\"5000 ft\",autodetectable=\"false\",holdfire=\"true\",proficiency=4})"
+  },
+  {
+    "heading": "12.2 `ScenEdit_AddUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local red_sub = ScenEdit_AddUnit({\n    type = 'Submarine',\n    unitname = 'Kilo 01',\n    side = 'RED',\n    dbid = 402,\n    latitude = '25.0000',\n    longitude = '122.0000',\n    depth = 40,\n    proficiency = 'Veteran',\n    autodetectable = false\n})\n\nif red_sub == nil then\n    print('AddUnit failed: ' .. tostring(_errmsg_))\nelse\n    print('Created unit: ' .. red_sub.name .. ' / ' .. red_sub.guid)\nend"
+  },
+  {
+    "heading": "12.3 `ScenEdit_SetUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", lat =5})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", lat =5, lon =\"N50.20.10\"})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", newname=\"USS Barack Obama\"})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", heading=0, HoldPosition=1, HoldFire=1,Proficiency=\"Ace\", Autodetectable=\"yes\"})"
+  },
+  {
+    "heading": "12.3 `ScenEdit_SetUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local updated = ScenEdit_SetUnit({\n    side = 'BLUE',\n    unitname = 'USS Test',\n    desiredHeading = 270,\n    holdPosition = false,\n    holdFire = false,\n    proficiency = 'Veteran',\n    sprintDrift = true\n})\n\nif updated == nil then\n    print('SetUnit failed: ' .. tostring(_errmsg_))\nend"
+  },
+  {
+    "heading": "12.4 `ScenEdit_GetUnit(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local u = ScenEdit_GetUnit({side='BLUE', unitname='USS Test'})\nif u then\n    print(u.name)\n    print(u.guid)\n    print(u.speed)\n    print(u.heading)\nend"
+  },
+  {
+    "heading": "12.5 `ScenEdit_GetContact(table)` and `ScenEdit_GetContacts(side)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "local con = ScenEdit_GetContacts('south korea')"
+  },
+  {
+    "heading": "12.5 `ScenEdit_GetContact(table)` and `ScenEdit_GetContacts(side)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "local contacts = ScenEdit_GetContacts('BLUE')\nif contacts then\n    for i, con in pairs(contacts) do\n        print(i, con.name, con.guid, con.type)\n    end\nend"
+  },
+  {
+    "heading": "12.6 `ScenEdit_SelectedUnits()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local selected = ScenEdit_SelectedUnits()\nprint(selected.units) -- list of selected units"
+  },
+  {
+    "heading": "12.6 `ScenEdit_SelectedUnits()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local selected = ScenEdit_SelectedUnits()\n\nif selected.units then\n    for i, u in pairs(selected.units) do\n        print('UNIT', i, u.name, u.guid)\n    end\nend\n\nif selected.contacts then\n    for i, c in pairs(selected.contacts) do\n        print('CONTACT', i, c.name, c.guid)\n    end\nend"
+  },
+  {
+    "heading": "12.7 `ScenEdit_QueryDB(objectType, DBID)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local w = ScenEdit_QueryDB('weapon', 51)\nif w then\n    print(w.name)\n    print(w.dbid)\nend"
+  },
+  {
+    "heading": "12.8 `ScenEdit_AddReloadsToUnit()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_AddReloadsToUnit({unitname='Mech Inf #1', wpn_dbid=773, number=1, w_max=10})"
+  },
+  {
+    "heading": "12.9 `ScenEdit_AddWeaponToUnitMagazine()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_AddWeaponToUnitMagazine({unitname='Ammo', wpn_dbid=773, number=1, w_max=10})"
+  },
+  {
+    "heading": "12.10 `ScenEdit_AddMission(side, missionName, missionType, missionOptions)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "local patrol = ScenEdit_AddMission('BLUE', 'Barrier CAP', 'Patrol', {\n    type = 'AAW',\n    zone = {'CAP-1', 'CAP-2', 'CAP-3', 'CAP-4'}\n})\n\nif patrol == nil then\n    print('AddMission failed: ' .. tostring(_errmsg_))\nend"
+  },
+  {
+    "heading": "12.10 `ScenEdit_AddMission(side, missionName, missionType, missionOptions)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "local strike = ScenEdit_AddMission('BLUE', 'Strike East', 'Strike', {\n    type = 'land'\n})"
+  },
+  {
+    "heading": "12.11 `ScenEdit_SetMission(side, missionNameOrID, missionOptions)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "local mission = ScenEdit_SetMission('BLUE', 'Barrier CAP', {\n    isactive = true,\n    oneThirdRule = false,\n    flightSize = 2\n})"
+  },
+  {
+    "heading": "12.12 `ScenEdit_AssignUnitToMission()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "missions",
+    "code": "ScenEdit_AssignUnitToMission('F-16 #1', 'Barrier CAP')\nScenEdit_AssignUnitToMission('F-16 #2', 'Barrier CAP')"
+  },
+  {
+    "heading": "12.13 `ScenEdit_AssignUnitAsTarget()` and `ScenEdit_RemoveUnitAsTarget()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_AssignUnitAsTarget('Strike East', 'Enemy Radar Site')\n-- later\nScenEdit_RemoveUnitAsTarget('Strike East', 'Enemy Radar Site')"
+  },
+  {
+    "heading": "12.14 `ScenEdit_AddReferencePoint(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local rp = ScenEdit_AddReferencePoint({\n    side = 'BLUE',\n    name = 'CAP-1',\n    latitude = '24.9500',\n    longitude = '121.9000'\n})"
+  },
+  {
+    "heading": "12.14 `ScenEdit_AddReferencePoint(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_AddReferencePoint({\n    side = 'BLUE',\n    area = {\n        {name='CAP-1', latitude='24.95', longitude='121.90'},\n        {name='CAP-2', latitude='25.05', longitude='121.90'},\n        {name='CAP-3', latitude='25.05', longitude='122.05'},\n        {name='CAP-4', latitude='24.95', longitude='122.05'}\n    }\n})"
+  },
+  {
+    "heading": "12.15 `ScenEdit_SetReferencePoint(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_SetReferencePoint({\n    side = 'BLUE',\n    name = 'CAP-1',\n    highlighted = true,\n    locked = false\n})"
+  },
+  {
+    "heading": "12.15 `ScenEdit_SetReferencePoint(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_SetReferencePoint({\n    side = 'BLUE',\n    area = {'CAP-1','CAP-2','CAP-3','CAP-4'},\n    highlighted = true\n})"
+  },
+  {
+    "heading": "12.16 `ScenEdit_AddZone(sideName, zoneType, table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "ScenEdit_AddZone('BLUE', 'Exclusion', {\n    description = 'No Entry Box',\n    area = {'CAP-1','CAP-2','CAP-3','CAP-4'},\n    hidden = 1\n})"
+  },
+  {
+    "heading": "12.17 `ScenEdit_SetZone(sideName, zoneType, table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "ScenEdit_SetZone('BLUE', 'Exclusion', {\n    description = 'No Entry Box',\n    isactive = true\n})"
+  },
+  {
+    "heading": "12.18 `ScenEdit_SetTrigger(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({\n    mode='add',\n    type='UnitEntersArea',\n    name='Sagami exiting hot zone',\n    targetfilter={SPECIFICUNIT='AOE 421 Sagami'},\n    area={'rp-1126','rp-1127','rp-1128','rp-1129'},\n    exitarea=true\n})"
+  },
+  {
+    "heading": "12.18 `ScenEdit_SetTrigger(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({\n    mode='update',\n    type='UnitEntersArea',\n    name='Sagami exiting hot zone',\n    rename='Any AOE entering hot zone',\n    targetfilter={TargetSubType='5023', TargetType='2', TargetSide='sidea'},\n    area={'rp-1126','rp-1127','rp-1128','rp-1129'},\n    exitarea=false\n})"
+  },
+  {
+    "heading": "12.18 `ScenEdit_SetTrigger(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({\n    mode='remove',\n    type='UnitEntersArea',\n    name='Any AOE entering hot zone'\n})"
+  },
+  {
+    "heading": "12.18 `ScenEdit_SetTrigger(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local trig = ScenEdit_SetTrigger({\n    mode = 'add',\n    type = 'UnitDetected',\n    name = 'BLUE detects hostile ship',\n    DetectorSideID = 'BLUE',\n    MCL = 2,\n    TargetFilter = {\n        TargetSide = 'RED',\n        TargetType = 'Ship'\n    }\n})\n\nif trig == nil then\n    print('SetTrigger failed: ' .. tostring(_errmsg_))\nend"
+  },
+  {
+    "heading": "12.19 `ScenEdit_SetCondition(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "ScriptTest='--comment\\r\\nif unit ~= nil then\\r\\n return true\\r\\n else\\r\\n return false\\r\\n end'"
+  },
+  {
+    "heading": "12.19 `ScenEdit_SetCondition(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetCondition({\n    mode='add',\n    type='SidePosture',\n    name='sideA hostile to sideB',\n    ObserverSideId='sidea',\n    TargetSideId='sideb',\n    targetposture='hostile'\n})"
+  },
+  {
+    "heading": "12.19 `ScenEdit_SetCondition(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local cond = ScenEdit_SetCondition({\n    mode = 'add',\n    type = 'LuaScript',\n    name = 'at least one hostile contact exists',\n    ScriptText = \"local cons = ScenEdit_GetContacts('BLUE')\\r\\nreturn cons ~= nil and next(cons) ~= nil\"\n})"
+  },
+  {
+    "heading": "12.20 `ScenEdit_SetAction(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetAction({\n    mode='add',\n    type='Points',\n    name='sideA loses some ..',\n    SideId='sidea',\n    PointChange=-10\n})"
+  },
+  {
+    "heading": "12.20 `ScenEdit_SetAction(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local act = ScenEdit_SetAction({\n    mode = 'add',\n    type = 'Message',\n    name = 'notify blue player',\n    SideID = 'BLUE',\n    Text = 'Hostile task group detected to the east.'\n})"
+  },
+  {
+    "heading": "12.20 `ScenEdit_SetAction(table)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local act2 = ScenEdit_SetAction({\n    mode = 'add',\n    type = 'LuaScript',\n    name = 'spawn reinforcements',\n    ScriptText = \"ScenEdit_AddUnit({type='Air', unitname='Reinforcement 1', side='BLUE', dbid=3500, loadoutid=16934, latitude='25.0', longitude='121.8', altitude='5000 ft'})\"\n})"
+  },
+  {
+    "heading": "12.21 `ScenEdit_SetEvent(eventName, options)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetEvent('my new event', {mode='add'})"
+  },
+  {
+    "heading": "12.21 `ScenEdit_SetEvent(eventName, options)`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local ev = ScenEdit_SetEvent('Blue detection event', {\n    mode = 'add',\n    isactive = true,\n    isrepeatable = true,\n    probability = 100\n})"
+  },
+  {
+    "heading": "12.22 `ScenEdit_SetEventTrigger`, `ScenEdit_SetEventCondition`, `ScenEdit_SetEventAction`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetEventAction('test event', {mode='add', name='test action points'})\nlocal a = ScenEdit_SetEventAction('test event', {mode='replace', name='test action message', replaceby='test action points'})"
+  },
+  {
+    "heading": "12.22 `ScenEdit_SetEventTrigger`, `ScenEdit_SetEventCondition`, `ScenEdit_SetEventAction`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEvent('Blue detects red surface group', {mode='add'})\nScenEdit_SetEventTrigger('Blue detects red surface group', {mode='add', name='BLUE detects hostile ship'})\nScenEdit_SetEventCondition('Blue detects red surface group', {mode='add', name='sideA hostile to sideB'})\nScenEdit_SetEventAction('Blue detects red surface group', {mode='add', name='notify blue player'})"
+  },
+  {
+    "heading": "12.23 `ScenEdit_SetTime()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "sim_control",
+    "code": "ScenEdit_SetTime({Date=\"2.12.2007\", Time=\"22.46.23\"})"
+  },
+  {
+    "heading": "12.23 `ScenEdit_SetTime()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "sim_control",
+    "code": "local m = ScenEdit_GetMission('sidea', 'test support')\nprint(m)\nm.starttime = \"2027-06-09 1:30:00!yyyy-MM-dd HH:mm:ss\"\nprint(m.starttime)"
+  },
+  {
+    "heading": "12.24 `ScenEdit_AddSpecialAction()` and `ScenEdit_SetSpecialAction()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "events",
+    "code": "local sa = ScenEdit_AddSpecialAction({\n    side = 'BLUE',\n    name = 'Spawn CAP',\n    description = 'Spawn an alert CAP at the player request',\n    IsActive = true,\n    IsRepeatable = false,\n    ScriptText = \"ScenEdit_AddUnit({type='Air', unitname='CAP Spawn', side='BLUE', dbid=3500, loadoutid=16934, latitude='25.05', longitude='121.95', altitude='12000 ft'})\"\n})"
+  },
+  {
+    "heading": "12.25 `ScenEdit_SetKeyValue()`, `ScenEdit_GetKeyValue()`, `ScenEdit_ClearKeyValue()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_SetKeyValue('BLUE_CAP_STATE', 'launched')\n\nlocal v = ScenEdit_GetKeyValue('BLUE_CAP_STATE')\nprint(v)\n\nScenEdit_ClearKeyValue('BLUE_CAP_STATE')"
+  },
+  {
+    "heading": "12.26 `ScenEdit_PlaySound()`, `ScenEdit_MsgBox()`, `ScenEdit_InputBox()`, `ScenEdit_SpecialMessage()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "ui_messages",
+    "code": "ScenEdit_MsgBox('This is a test message')"
+  },
+  {
+    "heading": "12.27 `Command_SaveScen()` and `SetScenarioTitle()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "scenario_state",
+    "code": "SetScenarioTitle('Taiwan Strait Escalation')\nCommand_SaveScen()"
+  },
+  {
+    "heading": "12.28 `Tool_Bearing()`, `Tool_Range()`, `Tool_LOS()`, `World_GetPointFromBearing()`, `World_GetElevation()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "world_tools",
+    "code": "local brg = Tool_Bearing({lat='25.0', lon='121.8'}, {lat='25.2', lon='122.1'})\nlocal rng = Tool_Range({lat='25.0', lon='121.8'}, {lat='25.2', lon='122.1'})\nprint(brg, rng)"
+  },
+  {
+    "heading": "12.28 `Tool_Bearing()`, `Tool_Range()`, `Tool_LOS()`, `World_GetPointFromBearing()`, `World_GetElevation()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "world_tools",
+    "code": "local pt = World_GetPointFromBearing('25.0', '121.8', 90, 25)\nprint(pt.latitude, pt.longitude)"
+  },
+  {
+    "heading": "12.29 `ScenEdit_QueryDB()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "local sensor = ScenEdit_QueryDB('sensor', 1234)\nif sensor then\n    print(sensor.name)\nend"
+  },
+  {
+    "heading": "12.30 `ScenEdit_AttackContact()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "contacts",
+    "code": "local contact = ScenEdit_GetContact({side='BLUE', guid='CONTACT-GUID-HERE'})\nif contact then\n    ScenEdit_AttackContact('BLUE UNIT GUID HERE', contact.guid, {\n        mode = 0,\n        weapon = 51,\n        qty = 2\n    })\nend"
+  },
+  {
+    "heading": "12.31 `ScenEdit_SetDoctrine()` and `ScenEdit_SetDoctrineWRA()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "doctrine",
+    "code": "ScenEdit_SetDoctrine({side='BLUE'}, {use_nuclear_weapons='no', weapon_control_status_air='tight'})\nScenEdit_SetDoctrineWRA({side='BLUE', weapon_id=51, target_type='Aircraft'}, {qty_salvo=2})"
+  },
+  {
+    "heading": "12.32 `ScenEdit_SetEMCON()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "misc",
+    "code": "ScenEdit_SetEMCON('Unit', 'BLUE', 'E-2D #1', 'Radar=Active')\nScenEdit_SetEMCON('Unit', 'BLUE', 'E-2D #1', 'OECM=Passive')"
+  },
+  {
+    "heading": "12.33 `ScenEdit_UpdateUnit()` and `ScenEdit_UpdateUnitCargo()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_UpdateUnit({\n    guid = 'UNIT-GUID',\n    mode = 'add_sensor',\n    dbid = 1234\n})"
+  },
+  {
+    "heading": "12.34 `ScenEdit_SetSidePosture()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "ScenEdit_SetSidePosture('BLUE', 'RED', 'H')"
+  },
+  {
+    "heading": "12.35 `ScenEdit_GetSideOptions()` and `ScenEdit_SetSideOptions()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "units",
+    "code": "ScenEdit_SetSideOptions({\n    side = 'BLUE',\n    awareness = 'Normal',\n    proficiency = 'Veteran'\n})"
+  },
+  {
+    "heading": "12.36 `Tool_BuildBlankScenario()`",
+    "section": "12. Detailed function notes and examples",
+    "topic": "sim_control",
+    "code": "Tool_BuildBlankScenario('Sandbox Build Test')\nSetScenarioTitle('Sandbox Build Test')"
+  },
+  {
+    "heading": "13.1 Altitude examples",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "misc",
+    "code": "{altitude = '100 FT'}\n{altitude = '100 M'}\n{altitude = '100'}"
+  },
+  {
+    "heading": "13.2 Add side",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "units",
+    "code": "ScenEdit_AddSide({name='OPFOR'})"
+  },
+  {
+    "heading": "13.3 Add unit",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "misc",
+    "code": "ScenEdit_AddUnit({type ='Aircraft', name ='F-15C Eagle', loadoutid =16934, heading =0, dbid =3500, side ='NATO', Latitude=\"N46.00.00\",Longitude=\"E25.00.00\", altitude=\"5000 ft\",autodetectable=\"false\",holdfire=\"true\",proficiency=4})\nScenEdit_AddUnit({type ='Air', unitname ='F-15C Eagle', loadoutid =16934, dbid =3500, side ='NATO', Lat=\"5.123\",Lon=\"-12.51\",alt=5000})\nScenEdit_AddUnit({type ='Ship', unitname ='GOE II Det C', dbid =3127, side ='USN', latitude=\"5.123\",longitude=\"-12.51\",proficiency='Veteran'})"
+  },
+  {
+    "heading": "13.4 Set unit",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "misc",
+    "code": "ScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", lat =5})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", lat =5, lon =\"N50.20.10\"})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", newname=\"USS Barack Obama\"})\nScenEdit_SetUnit({side=\"United States\", unitname=\"USS Test\", heading=0, HoldPosition=1, HoldFire=1,Proficiency=\"Ace\", Autodetectable=\"yes\"})"
+  },
+  {
+    "heading": "13.5 Add reloads",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_AddReloadsToUnit({unitname='Mech Inf #1', wpn_dbid=773, number=1, w_max=10})"
+  },
+  {
+    "heading": "13.6 Add weapon to magazine",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_AddWeaponToUnitMagazine({unitname='Ammo', wpn_dbid=773, number=1, w_max=10})"
+  },
+  {
+    "heading": "13.7 Set trigger",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({\n    mode='add',\n    type='UnitEntersArea',\n    name='Sagami exiting hot zone',\n    targetfilter={SPECIFICUNIT='AOE 421 Sagami'},\n    area={'rp-1126','rp-1127','rp-1128','rp-1129'},\n    exitarea=true\n})"
+  },
+  {
+    "heading": "13.7 Set trigger",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({\n    mode='update',\n    type='UnitEntersArea',\n    name='Sagami exiting hot zone',\n    rename='Any AOE entering hot zone',\n    targetfilter={TargetSubType = '5023',TargetType = '2',TargetSide='sidea'},\n    area={'rp-1126','rp-1127','rp-1128','rp-1129'},\n    exitarea=false\n})"
+  },
+  {
+    "heading": "13.7 Set trigger",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetTrigger({mode='remove',type='UnitEntersArea',name='Any AOE entering hot zone'})"
+  },
+  {
+    "heading": "13.8 Set condition",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetCondition({\n    mode='add',\n    type='SidePosture',\n    name='sideA hostile to sideB',\n    ObserverSideId='sidea',\n    TargetSideId='sideb',\n    targetposture='hostile'\n})"
+  },
+  {
+    "heading": "13.9 Condition script text formatting",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "ScriptTest='--comment\\r\\nif unit ~= nil then\\r\\n return true\\r\\n else\\r\\n return false\\r\\n end'"
+  },
+  {
+    "heading": "13.10 Set action",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetAction({mode='add', type='Points', name='sideA loses some ..', SideId='sidea', PointChange=-10})"
+  },
+  {
+    "heading": "13.11 Event action linking",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetEventAction('test event', {mode='add', name='test action points'})\nlocal a = ScenEdit_SetEventAction('test event', {mode='replace', name='test action message', replaceby='test action points'})"
+  },
+  {
+    "heading": "13.12 Add event",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "events",
+    "code": "local a = ScenEdit_SetEvent('my new event', {mode='add'})"
+  },
+  {
+    "heading": "13.13 Set time",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "sim_control",
+    "code": "ScenEdit_SetTime({Date=\"2.12.2007\", Time=\"22.46.23\"})"
+  },
+  {
+    "heading": "13.14 Selected units",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "misc",
+    "code": "local selected = ScenEdit_SelectedUnits()\nprint(selected.units)"
+  },
+  {
+    "heading": "13.15 Get contacts",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "contacts",
+    "code": "local con = ScenEdit_GetContacts('south korea')"
+  },
+  {
+    "heading": "13.16 Side wrapper area query",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "units",
+    "code": "local u = side:unitsInArea({\n    Area = {'RP-3137', 'RP-3139', 'RP-3136', 'RP-3138'},\n    TargetFilter = {TargetType = 'Ship'}\n})"
+  },
+  {
+    "heading": "13.17 Side wrapper filtering",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "units",
+    "code": "local u = side:unitsBy('Ship') -- all ships\nu = side:unitsBy('Ship', 2002, 3003) -- ships filtered for subtype and class"
+  },
+  {
+    "heading": "13.18 Satellite orbit update",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "misc",
+    "code": "theSat = ScenEdit_GetUnit({guid='56f830c1-d0e2-430a-985e-0e301cc01eff'})\ntheTLE = 'Resurs P1\\n1 39186U 13030A 17013.12537468 .00000446 00000-0 16942-4 0 9992\\n2 39186 97.3847 79.3911 0015157 247.7411 195.8488 15.31966970198820'\ntheSat:updateorbit({TLE=theTLE})"
+  },
+  {
+    "heading": "13.19 Date/time explicit format",
+    "section": "13. Official doc examples gathered in one place",
+    "topic": "sim_control",
+    "code": "local m = ScenEdit_GetMission('sidea', 'test support')\nprint(m)\nm.starttime = \"2027-06-09 1:30:00!yyyy-MM-dd HH:mm:ss\"\nprint(m.starttime)"
+  },
+  {
+    "heading": "14.1 Recipe: build a simple blank scenario and set title",
+    "section": "14. Full scenario recipes",
+    "topic": "sim_control",
+    "code": "Tool_BuildBlankScenario('Test Sandbox')\nSetScenarioTitle('Test Sandbox')\nScenEdit_SetTime({Date='06/09/2027', Time='01:30:00'})"
+  },
+  {
+    "heading": "14.2 Recipe: create sides and posture",
+    "section": "14. Full scenario recipes",
+    "topic": "units",
+    "code": "ScenEdit_AddSide({name='BLUE'})\nScenEdit_AddSide({name='RED'})\n\nScenEdit_SetSidePosture('BLUE', 'RED', 'H')\nScenEdit_SetSidePosture('RED', 'BLUE', 'H')\n\nScenEdit_SetSideOptions({\n    side = 'BLUE',\n    awareness = 'Normal',\n    proficiency = 'Veteran'\n})\n\nScenEdit_SetSideOptions({\n    side = 'RED',\n    awareness = 'Normal',\n    proficiency = 'Regular'\n})"
+  },
+  {
+    "heading": "14.3 Recipe: create reference points and an area",
+    "section": "14. Full scenario recipes",
+    "topic": "refpoints_zones",
+    "code": "ScenEdit_AddReferencePoint({\n    side = 'BLUE',\n    area = {\n        {name='BOX-1', latitude='25.00', longitude='121.80'},\n        {name='BOX-2', latitude='25.10', longitude='121.80'},\n        {name='BOX-3', latitude='25.10', longitude='121.95'},\n        {name='BOX-4', latitude='25.00', longitude='121.95'}\n    }\n})"
+  },
+  {
+    "heading": "14.4 Recipe: create a patrol mission and assign aircraft",
+    "section": "14. Full scenario recipes",
+    "topic": "missions",
+    "code": "local cap = ScenEdit_AddMission('BLUE', 'CAP NORTH', 'Patrol', {\n    type = 'AAW',\n    zone = {'BOX-1', 'BOX-2', 'BOX-3', 'BOX-4'}\n})\n\nScenEdit_AddUnit({\n    type = 'Air',\n    unitname = 'F-16A #1',\n    side = 'BLUE',\n    dbid = 3500,\n    loadoutid = 16934,\n    latitude = '25.02',\n    longitude = '121.82',\n    altitude = '12000 ft'\n})\n\nScenEdit_AddUnit({\n    type = 'Air',\n    unitname = 'F-16A #2',\n    side = 'BLUE',\n    dbid = 3500,\n    loadoutid = 16934,\n    latitude = '25.03',\n    longitude = '121.83',\n    altitude = '12000 ft'\n})\n\nScenEdit_AssignUnitToMission('F-16A #1', 'CAP NORTH')\nScenEdit_AssignUnitToMission('F-16A #2', 'CAP NORTH')\n\nScenEdit_SetMission('BLUE', 'CAP NORTH', {\n    isactive = true,\n    flightSize = 2,\n    oneThirdRule = false\n})"
+  },
+  {
+    "heading": "14.5 Recipe: create a strike package with target mission",
+    "section": "14. Full scenario recipes",
+    "topic": "missions",
+    "code": "local strike = ScenEdit_AddMission('BLUE', 'STRIKE EAST', 'Strike', {\n    type = 'land'\n})\n\nScenEdit_AddUnit({\n    type = 'Air',\n    unitname = 'Strike #1',\n    side = 'BLUE',\n    dbid = 3500,\n    loadoutid = 16934,\n    latitude = '24.95',\n    longitude = '121.70',\n    altitude = '15000 ft'\n})\n\nScenEdit_AssignUnitToMission('Strike #1', 'STRIKE EAST')\nScenEdit_AssignUnitAsTarget('STRIKE EAST', 'Enemy Radar Site')"
+  },
+  {
+    "heading": "14.6 Recipe: create a detection driven event chain",
+    "section": "14. Full scenario recipes",
+    "topic": "scenario_state",
+    "code": "local trig = ScenEdit_SetTrigger({\n    mode = 'add',\n    type = 'UnitDetected',\n    name = 'detect red ships',\n    DetectorSideID = 'BLUE',\n    MCL = 2,\n    TargetFilter = {\n        TargetSide = 'RED',\n        TargetType = 'Ship'\n    }\n})\n\nlocal cond = ScenEdit_SetCondition({\n    mode = 'add',\n    type = 'SidePosture',\n    name = 'blue hostile to red',\n    ObserverSideID = 'BLUE',\n    TargetSideID = 'RED',\n    TargetPosture = 'hostile'\n})\n\nlocal act = ScenEdit_SetAction({\n    mode = 'add',\n    type = 'Message',\n    name = 'alert blue',\n    SideID = 'BLUE',\n    Text = 'Red surface units detected.'\n})\n\nScenEdit_SetEvent('RED SHIPS DETECTED', {\n    mode = 'add',\n    isactive = true,\n    isrepeatable = true\n})\n\nScenEdit_SetEventTrigger('RED SHIPS DETECTED', {\n    mode = 'add',\n    description = 'detect red ships'\n})\n\nScenEdit_SetEventCondition('RED SHIPS DETECTED', {\n    mode = 'add',\n    description = 'blue hostile to red'\n})\n\nScenEdit_SetEventAction('RED SHIPS DETECTED', {\n    mode = 'add',\n    description = 'alert blue'\n})"
+  },
+  {
+    "heading": "14.7 Recipe: use KeyStore to avoid duplicate spawning",
+    "section": "14. Full scenario recipes",
+    "topic": "scenario_state",
+    "code": "local already = ScenEdit_GetKeyValue('REINFORCEMENT_1')\n\nif already ~= 'spawned' then\n    local u = ScenEdit_AddUnit({\n        type = 'Air',\n        unitname = 'Reinforcement 1',\n        side = 'BLUE',\n        dbid = 3500,\n        loadoutid = 16934,\n        latitude = '25.10',\n        longitude = '121.88',\n        altitude = '10000 ft'\n    })\n\n    if u then\n        ScenEdit_SetKeyValue('REINFORCEMENT_1', 'spawned')\n    end\nend"
+  },
+  {
+    "heading": "14.8 Recipe: event safe error handling skeleton",
+    "section": "14. Full scenario recipes",
+    "topic": "scenario_state",
+    "code": "Tool_EmulateNoConsole(true)\n\nlocal mission = ScenEdit_AddMission('BLUE', 'TEST STRIKE', 'Strike', {type='land'})\n\nif mission == nil then\n    if _errnum_ ~= 0 then\n        print('Failed to add mission: ' .. tostring(_errmsg_))\n    else\n        print('Mission add returned nil without a reported error')\n    end\nelse\n    print('Mission created: ' .. mission.name)\nend"
+  },
+  {
+    "heading": "14.9 Recipe: query current contacts and attack one",
+    "section": "14. Full scenario recipes",
+    "topic": "contacts",
+    "code": "local cons = ScenEdit_GetContacts('BLUE')\nif cons then\n    for i, con in pairs(cons) do\n        if con.type == 'Ship' or con.type == 2 then\n            print('Attacking contact', con.name, con.guid)\n            -- replace unit guid and weapon data as needed\n            ScenEdit_AttackContact('ATTACKER-UNIT-GUID', con.guid, {\n                mode = 0,\n                weapon = 51,\n                qty = 2\n            })\n            break\n        end\n    end\nend"
+  },
+  {
+    "heading": "3. Error handling pattern",
+    "section": "3. Error handling pattern",
+    "topic": "misc",
+    "code": "local mission = ScenEdit_AddMission('USA', 'Marker strike', 'strike', { type = 'land' })\n\nif mission == nil then\n    if _errnum_ ~= 0 then\n        print('Failed to add mission: ' .. tostring(_errmsg_))\n        print('Function: ' .. tostring(_errfnc_))\n        print('Error number: ' .. tostring(_errnum_))\n    else\n        print('Mission creation returned nil without a documented CommandLua error.')\n    end\nelse\n    print('Created mission: ' .. mission.name)\nend"
+  },
+  {
+    "heading": "4.1 Unit selector",
+    "section": "4. Common selector patterns",
+    "topic": "misc",
+    "code": "local selector_by_name = {\n    side = 'Blue',\n    unitname = 'USS Test'\n}\n\nlocal selector_by_guid = {\n    guid = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'\n}"
+  },
+  {
+    "heading": "4.2 Doctrine selector",
+    "section": "4. Common selector patterns",
+    "topic": "doctrine",
+    "code": "local doctrine_side = { side = 'Blue' }\nlocal doctrine_mission = { side = 'Blue', mission = 'BARCAP North' }\nlocal doctrine_unit = { side = 'Blue', unitname = 'Eagle #1' }"
+  },
+  {
+    "heading": "4.3 Contact selector",
+    "section": "4. Common selector patterns",
+    "topic": "contacts",
+    "code": "local contact_selector = {\n    side = 'Blue',\n    guid = 'contact-guid-here'\n}"
+  },
+  {
+    "heading": "4.4 Reference point selector",
+    "section": "4. Common selector patterns",
+    "topic": "refpoints_zones",
+    "code": "local rp_selector = {\n    side = 'Blue',\n    name = 'RP 1'\n}"
+  },
+  {
+    "heading": "4.5 New unit selector",
+    "section": "4. Common selector patterns",
+    "topic": "misc",
+    "code": "local new_aircraft = {\n    type = 'Aircraft',\n    unitname = 'Eagle #1',\n    side = 'Blue',\n    dbid = 3500,\n    loadoutid = 16934,\n    lat = 'N46.00.00',\n    lon = 'E25.00.00',\n    altitude = '5000 ft',\n    heading = 0,\n    proficiency = 4\n}"
+  },
+  {
+    "heading": "5.1 Add an aircraft at a location",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local u = ScenEdit_AddUnit({\n    type = 'Aircraft',\n    unitname = 'F 15C Eagle #1',\n    side = 'NATO',\n    dbid = 3500,\n    loadoutid = 16934,\n    heading = 0,\n    lat = 'N46.00.00',\n    lon = 'E25.00.00',\n    altitude = '5000 ft',\n    autodetectable = 'false',\n    holdfire = 'true',\n    proficiency = 4\n})\n\nprint(u.name)"
+  },
+  {
+    "heading": "5.2 Add an aircraft with numeric lat lon shorthand",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local u = ScenEdit_AddUnit({\n    type = 'Air',\n    unitname = 'F 15C Eagle #2',\n    side = 'NATO',\n    dbid = 3500,\n    loadoutid = 16934,\n    lat = 5.123,\n    lon = -12.51,\n    alt = 5000\n})"
+  },
+  {
+    "heading": "5.3 Add a ship",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local ship = ScenEdit_AddUnit({\n    type = 'Ship',\n    unitname = 'USS Example',\n    side = 'Blue',\n    dbid = 52,\n    lat = 'N24.45.00',\n    lon = 'E054.22.00',\n    heading = 90,\n    proficiency = 'Regular'\n})"
+  },
+  {
+    "heading": "5.4 Add a submarine",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local sub = ScenEdit_AddUnit({\n    type = 'Submarine',\n    unitname = 'SSN Sample',\n    side = 'Blue',\n    dbid = 2215,\n    lat = 'N24.10.00',\n    lon = 'E054.00.00',\n    depth = 'Periscope',\n    heading = 45,\n    proficiency = 'Veteran'\n})"
+  },
+  {
+    "heading": "5.5 Rename a unit",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "ScenEdit_SetUnit({\n    side = 'United States',\n    unitname = 'USS Test',\n    newname = 'USS Barack Obama'\n})"
+  },
+  {
+    "heading": "5.6 Change position only",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "ScenEdit_SetUnit({\n    side = 'United States',\n    unitname = 'USS Test',\n    lat = 5\n})"
+  },
+  {
+    "heading": "5.7 Change position with latitude and longitude",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "ScenEdit_SetUnit({\n    side = 'United States',\n    unitname = 'USS Test',\n    lat = 5,\n    lon = 'N50.20.10'\n})"
+  },
+  {
+    "heading": "5.8 Change heading and tactical flags",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "ScenEdit_SetUnit({\n    side = 'United States',\n    unitname = 'USS Test',\n    heading = 0,\n    HoldPosition = 1,\n    HoldFire = 1,\n    Proficiency = 'Ace',\n    Autodetectable = 'yes'\n})"
+  },
+  {
+    "heading": "5.9 Move a unit to another side",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "ScenEdit_SetUnitSide({\n    side = 'Old Side',\n    name = 'Eagle #1',\n    newside = 'New Side'\n})"
+  },
+  {
+    "heading": "5.10 Get a unit wrapper safely",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local unit = Tool_EmulateNoConsole(true)\nunit = ScenEdit_GetUnit({ side = 'Blue', unitname = 'USS Example' })\nTool_EmulateNoConsole(false)\n\nif unit then\n    print(unit.name)\n    print(unit.guid)\n    print(unit.latitude)\n    print(unit.longitude)\nend"
+  },
+  {
+    "heading": "5.11 Update from wrapper values and then commit with setter",
+    "section": "5. Unit creation and editing examples",
+    "topic": "units",
+    "code": "local unit = ScenEdit_GetUnit({ side = 'Blue', unitname = 'USS Example' })\nif unit then\n    ScenEdit_SetUnit({\n        guid = unit.guid,\n        heading = 120,\n        desiredSpeed = 18\n    })\nend"
+  },
+  {
+    "heading": "6.1 Add weapons to a magazine",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "local added = ScenEdit_AddWeaponToUnitMagazine({\n    unitname = 'Ammo',\n    wpn_dbid = 773,\n    number = 1,\n    w_max = 10\n})\n\nprint('Added: ' .. tostring(added))"
+  },
+  {
+    "heading": "6.2 Add reloads to a unit",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "local ok = ScenEdit_AddReloadsToUnit({\n    side = 'Blue',\n    unitname = 'Eagle #1'\n})\n\nprint(ok)"
+  },
+  {
+    "heading": "6.3 Set aircraft loadout",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_SetLoadout({\n    side = 'Blue',\n    unitname = 'Eagle #1',\n    loadoutid = 16934,\n    time_to_ready_minutes = 15\n})"
+  },
+  {
+    "heading": "6.4 Fill magazines for a chosen loadout pattern",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_FillMagsForLoadout({\n    side = 'Blue',\n    unitname = 'Eagle #1'\n})"
+  },
+  {
+    "heading": "6.5 Refuel a unit",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_RefuelUnit({\n    side = 'Blue',\n    unitname = 'USS Example'\n})"
+  },
+  {
+    "heading": "6.6 Transfer cargo between units",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_TransferCargo({\n    side = 'Blue',\n    from = 'Transport #1',\n    to = 'Airbase Alpha',\n    cargo_guid = 'cargo-guid-here'\n})"
+  },
+  {
+    "heading": "6.7 Unload cargo",
+    "section": "6. Magazine, loadout, refuel, and cargo examples",
+    "topic": "loadout_cargo",
+    "code": "ScenEdit_UnloadCargo({\n    side = 'Blue',\n    unitname = 'Transport #1',\n    cargo_guid = 'cargo-guid-here'\n})"
+  },
+  {
+    "heading": "7.1 Add a simple strike mission",
+    "section": "7. Mission creation examples",
+    "topic": "sim_control",
+    "code": "local mission = ScenEdit_AddMission('USA', 'Marker strike', 'strike', {\n    type = 'land'\n})\n\nif mission then\n    print(mission.name)\nend"
+  },
+  {
+    "heading": "7.2 Add a patrol mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "local mission = ScenEdit_AddMission('Blue', 'BARCAP North', 'Patrol', {\n    type = 'AAW',\n    Zone = { 'RP CAP 1', 'RP CAP 2', 'RP CAP 3', 'RP CAP 4' }\n})"
+  },
+  {
+    "heading": "7.3 Add a support mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "local mission = ScenEdit_AddMission('Blue', 'Tanker Track', 'Support', {\n    zone = { 'TK 1', 'TK 2', 'TK 3', 'TK 4' }\n})"
+  },
+  {
+    "heading": "7.4 Add a ferry mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "local mission = ScenEdit_AddMission('Blue', 'Ferry to Cyprus', 'Ferry', {\n    destination = 'Akrotiri'\n})"
+  },
+  {
+    "heading": "7.5 Add a package or task pool category mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "local package = ScenEdit_AddMission('Blue', 'Package Alpha', 'Strike', {\n    category = 1,\n    type = 'land'\n})\n\nlocal taskpool = ScenEdit_AddMission('Blue', 'Task Pool Alpha', 'Strike', {\n    category = 2,\n    type = 'land'\n})"
+  },
+  {
+    "heading": "7.6 Assign units to a mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_AssignUnitToMission('Eagle #1', 'BARCAP North')\nScenEdit_AssignUnitToMission('Eagle #2', 'BARCAP North')"
+  },
+  {
+    "heading": "7.7 Assign a unit as a mission target",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_AssignUnitAsTarget({\n    side = 'Blue',\n    mission = 'Marker strike',\n    target = 'Enemy Radar Site'\n})"
+  },
+  {
+    "heading": "7.8 Remove a unit as a mission target",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_RemoveUnitAsTarget({\n    side = 'Blue',\n    mission = 'Marker strike',\n    target = 'Enemy Radar Site'\n})"
+  },
+  {
+    "heading": "7.9 Create a mission flight plan",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_CreateMissionFlightPlan({\n    side = 'Blue',\n    mission = 'Marker strike',\n    plan = 'Ingress Alpha'\n})"
+  },
+  {
+    "heading": "7.10 Get a mission wrapper and modify it later",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "local mission = ScenEdit_GetMission('Blue', 'BARCAP North')\nif mission then\n    print(mission.name)\nend"
+  },
+  {
+    "heading": "7.11 Update a mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_SetMission('Blue', 'BARCAP North', {\n    flightSize = 2,\n    flightSizeCheck = false,\n    oneThirdRule = false\n})"
+  },
+  {
+    "heading": "7.12 Delete a mission",
+    "section": "7. Mission creation examples",
+    "topic": "missions",
+    "code": "ScenEdit_DeleteMission('Blue', 'Old Mission')"
+  },
+  {
+    "heading": "8.1 Set side level doctrine",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "units",
+    "code": "ScenEdit_SetDoctrine({\n    side = 'Soviet Union'\n}, {\n    kinematic_range_for_torpedoes = 'AutomaticAndManualFire',\n    use_nuclear_weapons = 'yes'\n})"
+  },
+  {
+    "heading": "8.2 Set mission level doctrine",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "missions",
+    "code": "ScenEdit_SetDoctrine({\n    side = 'Soviet Union',\n    mission = 'ASW PATROL'\n}, {\n    kinematic_range_for_torpedoes = 'AutomaticAndManualFire',\n    use_nuclear_weapons = 'yes'\n})"
+  },
+  {
+    "heading": "8.3 Set unit level doctrine",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "doctrine",
+    "code": "ScenEdit_SetDoctrine({\n    side = 'Soviet Union',\n    unitname = 'Bear #2'\n}, {\n    use_nuclear_weapons = 'yes'\n})"
+  },
+  {
+    "heading": "8.4 Reset doctrine to inherit",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "doctrine",
+    "code": "ScenEdit_SetDoctrine({\n    side = 'Blue',\n    mission = 'BARCAP North'\n}, {})"
+  },
+  {
+    "heading": "8.5 Read doctrine first, then update selectively",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "doctrine",
+    "code": "local doctrine = ScenEdit_GetDoctrine({\n    side = 'Blue',\n    mission = 'BARCAP North'\n})\n\nif doctrine then\n    print(doctrine.weapon_control_status_air)\nend\n\nScenEdit_SetDoctrine({\n    side = 'Blue',\n    mission = 'BARCAP North'\n}, {\n    weapon_control_status_air = 0,\n    use_refuel_unrep = 1\n})"
+  },
+  {
+    "heading": "8.6 Set WRA for a weapon and target type",
+    "section": "8. Doctrine and WRA examples",
+    "topic": "doctrine",
+    "code": "ScenEdit_SetDoctrineWRA({\n    side = 'Blue',\n    mission = 'BARCAP North',\n    weapon_id = 51,\n    target_type = 2001\n}, {\n    qty_salvo = 2,\n    firing_range = 'max'\n})"
+  },
+  {
+    "heading": "9.1 Add a single reference point",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "local rp = ScenEdit_AddReferencePoint({\n    side = 'Blue',\n    name = 'RP 1',\n    lat = 'N25.00.00',\n    lon = 'E055.00.00'\n})"
+  },
+  {
+    "heading": "9.2 Add four reference points for a patrol box",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "ScenEdit_AddReferencePoint({ side = 'Blue', name = 'RP CAP 1', lat = 'N25.10.00', lon = 'E055.00.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'RP CAP 2', lat = 'N25.10.00', lon = 'E055.20.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'RP CAP 3', lat = 'N24.50.00', lon = 'E055.20.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'RP CAP 4', lat = 'N24.50.00', lon = 'E055.00.00' })"
+  },
+  {
+    "heading": "9.3 Add a no nav zone",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "local zone = ScenEdit_AddZone('Blue', 'NoNav', {\n    description = 'Civilian Exclusion',\n    area = { 'RP CAP 1', 'RP CAP 2', 'RP CAP 3', 'RP CAP 4' },\n    hidden = 1\n})"
+  },
+  {
+    "heading": "9.4 Set zone attributes",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "ScenEdit_SetZone({\n    side = 'Blue',\n    description = 'Civilian Exclusion',\n    isactive = true\n})"
+  },
+  {
+    "heading": "9.5 Transform a zone",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "ScenEdit_TransformZone({\n    side = 'Blue',\n    description = 'Civilian Exclusion',\n    scale = 1.2\n})"
+  },
+  {
+    "heading": "9.6 Update a reference point",
+    "section": "9. Reference point and zone examples",
+    "topic": "refpoints_zones",
+    "code": "ScenEdit_SetReferencePoint({\n    side = 'Blue',\n    name = 'RP 1',\n    lat = 'N25.05.00',\n    lon = 'E055.05.00'\n})"
+  },
+  {
+    "heading": "10.1 Get a known contact",
+    "section": "10. Contact handling examples",
+    "topic": "contacts",
+    "code": "local contact = ScenEdit_GetContact({\n    side = 'Blue',\n    guid = 'contact-guid-here'\n})\n\nif contact then\n    print(contact.name)\n    print(contact.posture)\nend"
+  },
+  {
+    "heading": "10.2 Get all contacts for a side",
+    "section": "10. Contact handling examples",
+    "topic": "units",
+    "code": "local contacts = ScenEdit_GetContacts('Blue')\nfor i, c in ipairs(contacts) do\n    print(i, c.name, c.guid)\nend"
+  },
+  {
+    "heading": "10.3 Attack a contact",
+    "section": "10. Contact handling examples",
+    "topic": "contacts",
+    "code": "ScenEdit_AttackContact('Blue', 'Eagle #1', {\n    mode = 0,\n    contactguid = 'contact-guid-here'\n})"
+  },
+  {
+    "heading": "10.4 Attack with explicit mount and weapon choice",
+    "section": "10. Contact handling examples",
+    "topic": "contacts",
+    "code": "ScenEdit_AttackContact('Blue', 'Eagle #1', {\n    mode = 1,\n    contactguid = 'contact-guid-here',\n    mount = 12345,\n    weapon = 678,\n    qty = 2\n})"
+  },
+  {
+    "heading": "11.1 Set weather with random values",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "ScenEdit_SetWeather(\n    math.random(0, 25),\n    math.random(0, 50),\n    math.random(0, 10) / 10.0,\n    math.random(0, 9)\n)"
+  },
+  {
+    "heading": "11.2 Get current weather",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "local wx = ScenEdit_GetWeather()\nprint(wx.temperature)\nprint(wx.rainfall)\nprint(wx.undercloud)\nprint(wx.seastate)"
+  },
+  {
+    "heading": "11.3 Set scenario time using date and time table",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "ScenEdit_SetTime({\n    Date = '2.12.2007',\n    Time = '22.46.23'\n})"
+  },
+  {
+    "heading": "11.4 Set scenario title",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "SetScenarioTitle('Operation Sample Dawn')"
+  },
+  {
+    "heading": "11.5 Read current title",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "print(GetScenarioTitle())"
+  },
+  {
+    "heading": "11.6 Set score for a side",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "ScenEdit_SetScore('Blue', 250, 'Awarded for successful convoy protection')"
+  },
+  {
+    "heading": "11.7 End the scenario",
+    "section": "11. Weather, time, score, and scenario examples",
+    "topic": "sim_control",
+    "code": "ScenEdit_EndScenario()"
+  },
+  {
+    "heading": "12.1 Add an event",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEvent('Spawn Enemy Raid', {\n    IsActive = true,\n    IsShown = true,\n    IsRepeatable = false\n})"
+  },
+  {
+    "heading": "12.2 Add a trigger to an event",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEventTrigger('MyEvent', {\n    mode = 'add',\n    description = 'MyNewTrigger'\n})"
+  },
+  {
+    "heading": "12.3 Replace a condition on an event",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEventCondition('MyEvent', {\n    mode = 'replace',\n    description = 'MyCondition'\n})"
+  },
+  {
+    "heading": "12.4 Add an action to an event",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEventAction('MyEvent', {\n    mode = 'add',\n    description = 'SpawnRaidAction'\n})"
+  },
+  {
+    "heading": "12.5 Execute an event action manually",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_ExecuteEventAction('Spawn Enemy Raid', 'SpawnRaidAction')"
+  },
+  {
+    "heading": "12.6 Full event scaffold with trigger, condition, and action placeholders",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_SetEvent('Spawn Enemy Raid', {\n    IsActive = true,\n    IsShown = true,\n    IsRepeatable = false\n})\n\nScenEdit_SetEventTrigger('Spawn Enemy Raid', {\n    mode = 'add',\n    description = 'Blue unit enters box'\n})\n\nScenEdit_SetEventCondition('Spawn Enemy Raid', {\n    mode = 'add',\n    description = 'Scenario has started'\n})\n\nScenEdit_SetEventAction('Spawn Enemy Raid', {\n    mode = 'add',\n    description = 'SpawnRaidAction'\n})"
+  },
+  {
+    "heading": "12.7 Add a special action",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_AddSpecialAction({\n    side = 'Blue',\n    name = 'Request Reinforcements',\n    description = 'Spawns a reserve CAP pair',\n    isactive = true,\n    isrepeatable = false,\n    scripttext = [[\n        ScenEdit_AddUnit({\n            type = 'Aircraft',\n            unitname = 'Reserve #1',\n            side = 'Blue',\n            dbid = 3500,\n            loadoutid = 16934,\n            lat = 'N25.00.00',\n            lon = 'E055.00.00',\n            altitude = '5000 ft'\n        })\n    ]]\n})"
+  },
+  {
+    "heading": "12.8 Execute a special action",
+    "section": "12. Event, trigger, condition, and action examples",
+    "topic": "events",
+    "code": "ScenEdit_ExecuteSpecialAction('Blue', 'Request Reinforcements')"
+  },
+  {
+    "heading": "13.1 Add a side",
+    "section": "13. Side level examples",
+    "topic": "units",
+    "code": "ScenEdit_AddSide({\n    side = 'Neutral Shipping'\n})"
+  },
+  {
+    "heading": "13.2 Remove a side",
+    "section": "13. Side level examples",
+    "topic": "units",
+    "code": "ScenEdit_RemoveSide('Neutral Shipping')"
+  },
+  {
+    "heading": "13.3 Set side posture",
+    "section": "13. Side level examples",
+    "topic": "units",
+    "code": "ScenEdit_SetSidePosture('Blue', 'Red', 'H')\nScenEdit_SetSidePosture('Red', 'Blue', 'H')"
+  },
+  {
+    "heading": "13.4 Get side posture",
+    "section": "13. Side level examples",
+    "topic": "units",
+    "code": "local p = ScenEdit_GetSidePosture('Blue', 'Red')\nprint(p)"
+  },
+  {
+    "heading": "13.5 Set side options",
+    "section": "13. Side level examples",
+    "topic": "units",
+    "code": "ScenEdit_SetSideOptions({\n    side = 'Blue',\n    awareness = 1,\n    proficiency = 3\n})"
+  },
+  {
+    "heading": "14.1 Add a minefield",
+    "section": "14. Minefield and explosion examples",
+    "topic": "minefield",
+    "code": "local mf = ScenEdit_AddMinefield({\n    side = 'Blue',\n    dbid = 2345,\n    number = 100,\n    delay = 60000,\n    area = { 'rp-1', 'rp-2', 'rp-3', 'rp-4' }\n})"
+  },
+  {
+    "heading": "14.2 Delete a minefield",
+    "section": "14. Minefield and explosion examples",
+    "topic": "minefield",
+    "code": "ScenEdit_DeleteMinefield({\n    side = 'Blue',\n    guid = 'minefield-guid-here'\n})"
+  },
+  {
+    "heading": "14.3 Add an explosion",
+    "section": "14. Minefield and explosion examples",
+    "topic": "minefield",
+    "code": "ScenEdit_AddExplosion({\n    latitude = 'N25.00.00',\n    longitude = 'E055.00.00',\n    altitude = 0,\n    dbid = 2100\n})"
+  },
+  {
+    "heading": "15.1 Save a persistent key value",
+    "section": "15. Key store examples",
+    "topic": "keystore",
+    "code": "ScenEdit_SetKeyValue('raid_spawned', 'true')"
+  },
+  {
+    "heading": "15.2 Read a persistent key value",
+    "section": "15. Key store examples",
+    "topic": "keystore",
+    "code": "local value = ScenEdit_GetKeyValue('raid_spawned')\nprint(value)"
+  },
+  {
+    "heading": "15.3 Clear a persistent key value",
+    "section": "15. Key store examples",
+    "topic": "keystore",
+    "code": "ScenEdit_ClearKeyValue('raid_spawned')"
+  },
+  {
+    "heading": "15.4 Store a counter safely",
+    "section": "15. Key store examples",
+    "topic": "keystore",
+    "code": "local current = tonumber(ScenEdit_GetKeyValue('cap_cycles') or '0')\ncurrent = current + 1\nScenEdit_SetKeyValue('cap_cycles', tostring(current))"
+  },
+  {
+    "heading": "16.1 Popup message box",
+    "section": "16. UI and message examples",
+    "topic": "ui_messages",
+    "code": "ScenEdit_MsgBox('Enemy raid detected')"
+  },
+  {
+    "heading": "16.2 Input box",
+    "section": "16. UI and message examples",
+    "topic": "ui_messages",
+    "code": "local answer = ScenEdit_InputBox('Enter reinforcement callsign', 'Reserve #3')\nprint(answer)"
+  },
+  {
+    "heading": "16.3 Special message to a side",
+    "section": "16. UI and message examples",
+    "topic": "units",
+    "code": "ScenEdit_SpecialMessage('Blue', 'Enemy raid detected from the north east')"
+  },
+  {
+    "heading": "16.4 Play a sound",
+    "section": "16. UI and message examples",
+    "topic": "ui_messages",
+    "code": "ScenEdit_PlaySound('alarm.wav')"
+  },
+  {
+    "heading": "16.5 Bark notification on a unit",
+    "section": "16. UI and message examples",
+    "topic": "ui_messages",
+    "code": "ScenEdit_CreateBarkNotification_Unit({\n    side = 'Blue',\n    unitname = 'Eagle #1',\n    text = 'Bandits detected'\n})"
+  },
+  {
+    "heading": "17.1 Import scenario from XML string",
+    "section": "17. Import and export examples",
+    "topic": "scenario_state",
+    "code": "local ok = ScenEdit_ImportScenarioFromXML({\n    XML = '<Scenario>...a big XML string...</Scenario>'\n})\n\nprint(ok)"
+  },
+  {
+    "heading": "17.2 Import scenario from XML file",
+    "section": "17. Import and export examples",
+    "topic": "scenario_state",
+    "code": "local ok = ScenEdit_ImportScenarioFromXML({\n    filename = 'scenario_fragment.xml'\n})\n\nprint(ok)"
+  },
+  {
+    "heading": "17.3 Export scenario to XML",
+    "section": "17. Import and export examples",
+    "topic": "scenario_state",
+    "code": "local xml = ScenEdit_ExportScenarioToXML()\nprint(xml)"
+  },
+  {
+    "heading": "17.4 Export doctrine to XML",
+    "section": "17. Import and export examples",
+    "topic": "doctrine",
+    "code": "local doctrine_xml = ScenEdit_ExportDoctrineToXML({\n    side = 'Blue'\n})\nprint(doctrine_xml)"
+  },
+  {
+    "heading": "18.1 Bearing between two points",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local brg = Tool_Bearing('N25.00.00', 'E055.00.00', 'N25.30.00', 'E055.20.00')\nprint(brg)"
+  },
+  {
+    "heading": "18.2 Range between two points",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local rng = Tool_Range('N25.00.00', 'E055.00.00', 'N25.30.00', 'E055.20.00')\nprint(rng)"
+  },
+  {
+    "heading": "18.3 LOS between two points",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local los = Tool_LOS_Points({\n    observerlatitude = 'N25.00.00',\n    observerlongitude = 'E055.00.00',\n    targetlatitude = 'N25.30.00',\n    targetlongitude = 'E055.20.00'\n})\nprint(los)"
+  },
+  {
+    "heading": "18.4 Get point from bearing and range",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local p = World_GetPointFromBearing({\n    latitude = 'N25.00.00',\n    longitude = 'E055.00.00',\n    bearing = 45,\n    distance = 50\n})\n\nprint(p.latitude, p.longitude)"
+  },
+  {
+    "heading": "18.5 Get a circle from point",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local circle = World_GetCircleFromPoint({\n    latitude = 'N25.00.00',\n    longitude = 'E055.00.00',\n    radius = 25,\n    points = 12\n})"
+  },
+  {
+    "heading": "18.6 Get elevation",
+    "section": "18. World and tool function examples",
+    "topic": "world_tools",
+    "code": "local elev = World_GetElevation({\n    latitude = 'N25.00.00',\n    longitude = 'E055.00.00'\n})\nprint(elev)"
+  },
+  {
+    "heading": "19.1 Unit wrapper inspection",
+    "section": "19. Wrapper oriented examples",
+    "topic": "doctrine",
+    "code": "local unit = ScenEdit_GetUnit({ side = 'Blue', unitname = 'USS Example' })\nif unit then\n    print(unit.guid)\n    print(unit.name)\n    print(unit.side)\n    print(unit.latitude)\n    print(unit.longitude)\n    print(unit.heading)\n    print(unit.altitude)\n    print(unit.proficiency)\nend"
+  },
+  {
+    "heading": "19.2 Contact wrapper inspection",
+    "section": "19. Wrapper oriented examples",
+    "topic": "doctrine",
+    "code": "local contact = ScenEdit_GetContact({ side = 'Blue', guid = 'contact-guid-here' })\nif contact then\n    print(contact.name)\n    print(contact.type)\n    print(contact.posture)\n    print(contact.latitude)\n    print(contact.longitude)\nend"
+  },
+  {
+    "heading": "19.3 Mission wrapper inspection",
+    "section": "19. Wrapper oriented examples",
+    "topic": "missions",
+    "code": "local mission = ScenEdit_GetMission('Blue', 'BARCAP North')\nif mission then\n    print(mission.name)\n    print(mission.type)\n    print(mission.category)\nend"
+  },
+  {
+    "heading": "19.4 Scenario wrapper inspection",
+    "section": "19. Wrapper oriented examples",
+    "topic": "doctrine",
+    "code": "local scen = VP_GetScenario()\nprint(scen.Title)"
+  },
+  {
+    "heading": "20.1 Recipe: spawn a raid package when an event fires",
+    "section": "20. Scenario recipes",
+    "topic": "scenario_state",
+    "code": "local function spawn_raid(side, base_lat, base_lon)\n    ScenEdit_AddUnit({\n        type = 'Aircraft',\n        unitname = 'Raid Lead',\n        side = side,\n        dbid = 3500,\n        loadoutid = 16934,\n        lat = base_lat,\n        lon = base_lon,\n        altitude = '15000 ft',\n        heading = 220,\n        proficiency = 'Regular'\n    })\n\n    ScenEdit_AddUnit({\n        type = 'Aircraft',\n        unitname = 'Raid Wing',\n        side = side,\n        dbid = 3500,\n        loadoutid = 16934,\n        lat = base_lat,\n        lon = base_lon,\n        altitude = '15000 ft',\n        heading = 220,\n        proficiency = 'Regular'\n    })\nend\n\nspawn_raid('Red', 'N27.00.00', 'E057.00.00')"
+  },
+  {
+    "heading": "20.2 Recipe: create CAP box and patrol mission from scratch",
+    "section": "20. Scenario recipes",
+    "topic": "missions",
+    "code": "ScenEdit_AddReferencePoint({ side = 'Blue', name = 'CAP 1', lat = 'N25.20.00', lon = 'E054.50.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'CAP 2', lat = 'N25.20.00', lon = 'E055.20.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'CAP 3', lat = 'N24.50.00', lon = 'E055.20.00' })\nScenEdit_AddReferencePoint({ side = 'Blue', name = 'CAP 4', lat = 'N24.50.00', lon = 'E054.50.00' })\n\nScenEdit_AddMission('Blue', 'Northern CAP', 'Patrol', {\n    type = 'AAW',\n    Zone = { 'CAP 1', 'CAP 2', 'CAP 3', 'CAP 4' }\n})\n\nScenEdit_AssignUnitToMission('Eagle #1', 'Northern CAP')\nScenEdit_AssignUnitToMission('Eagle #2', 'Northern CAP')\n\nScenEdit_SetDoctrine({ side = 'Blue', mission = 'Northern CAP' }, {\n    weapon_control_status_air = 0,\n    engage_opportunity_targets = 'true'\n})"
+  },
+  {
+    "heading": "20.3 Recipe: persist a one time spawn with key store",
+    "section": "20. Scenario recipes",
+    "topic": "sim_control",
+    "code": "local already_spawned = ScenEdit_GetKeyValue('enemy_raid_spawned')\n\nif already_spawned ~= 'true' then\n    ScenEdit_AddUnit({\n        type = 'Aircraft',\n        unitname = 'Enemy Raid #1',\n        side = 'Red',\n        dbid = 3500,\n        loadoutid = 16934,\n        lat = 'N27.00.00',\n        lon = 'E057.00.00',\n        altitude = '18000 ft'\n    })\n\n    ScenEdit_SetKeyValue('enemy_raid_spawned', 'true')\nend"
+  },
+  {
+    "heading": "20.4 Recipe: dynamic weather randomization at scenario start",
+    "section": "20. Scenario recipes",
+    "topic": "scenario_state",
+    "code": "math.randomseed(os.time())\n\nScenEdit_SetWeather(\n    math.random(10, 35),\n    math.random(0, 20),\n    math.random(0, 10) / 10.0,\n    math.random(0, 5)\n)"
+  },
+  {
+    "heading": "20.5 Recipe: build a blank scenario then add sides and seed units",
+    "section": "20. Scenario recipes",
+    "topic": "sim_control",
+    "code": "Tool_BuildBlankScenario('Generated Scenario')\n\nScenEdit_AddSide({ side = 'Blue' })\nScenEdit_AddSide({ side = 'Red' })\n\nScenEdit_SetSidePosture('Blue', 'Red', 'H')\nScenEdit_SetSidePosture('Red', 'Blue', 'H')\n\nScenEdit_AddUnit({\n    type = 'Ship',\n    unitname = 'Blue Frigate',\n    side = 'Blue',\n    dbid = 52,\n    lat = 'N25.00.00',\n    lon = 'E055.00.00'\n})\n\nScenEdit_AddUnit({\n    type = 'Ship',\n    unitname = 'Red Corvette',\n    side = 'Red',\n    dbid = 1132,\n    lat = 'N25.30.00',\n    lon = 'E055.40.00'\n})"
+  },
+  {
+    "heading": "21.1 Find a unit by name and return its GUID",
+    "section": "21. Helper utilities",
+    "topic": "ui_messages",
+    "code": "function get_unit_guid(side_name, unit_name)\n    local unit = ScenEdit_GetUnit({ side = side_name, unitname = unit_name })\n    if unit then\n        return unit.guid\n    end\n    return nil\nend"
+  },
+  {
+    "heading": "21.2 Safe print of CommandLua error state",
+    "section": "21. Helper utilities",
+    "topic": "helpers",
+    "code": "function print_last_commandlua_error()\n    print('Function: ' .. tostring(_errfnc_))\n    print('Message: ' .. tostring(_errmsg_))\n    print('Number: ' .. tostring(_errnum_))\nend"
+  },
+  {
+    "heading": "21.3 Require a unit wrapper or raise a descriptive message",
+    "section": "21. Helper utilities",
+    "topic": "doctrine",
+    "code": "function require_unit(side_name, unit_name)\n    local unit = ScenEdit_GetUnit({ side = side_name, unitname = unit_name })\n    if not unit then\n        error('Unit not found: ' .. tostring(side_name) .. ' / ' .. tostring(unit_name))\n    end\n    return unit\nend"
+  }
+]

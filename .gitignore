@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+bridge_config*.json*
+rag_index/
+logs/
+sessions/
+snapshots/
+*.log
+.DS_Store
+Thumbs.db
+
+# Already included in data/CMO_DB515_FINAL_LOOKUP_LIBRARY.zip
+knowledge_pack/db515/cmo_aircraft_loadouts.csv
