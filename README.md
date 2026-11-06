@@ -20,16 +20,18 @@ Instead of just producing Lua to copy by hand, CONN can carry a request through 
 
 **You need:** Windows, Python with Tkinter, Command: Modern Operations with its Lua Script Console, and an LLM chat window. CONN controls the visible chat and console; it does **not** require a direct LLM API key.
 
-1. Download and extract the project, then open PowerShell in its folder.
-2. Install the dependencies and launch CONN:
+Download and extract the project, then open PowerShell in the extracted folder. Run these two commands:
 
-   ```powershell
+```powershell
 python -m pip install -r requirements.txt
 python conn.py
 ```
-3. Open CMO, the Lua console and your LLM chat. In CONN, identify the windows and **calibrate the six required targets**.
-4. Run **Preflight** and test the workflow with **DRY RUN** enabled (amber interface).
-5. Once the targets are correct, switch to live mode, enter your scenario request and press **Start**.
+
+Once CONN opens:
+
+1. Open CMO, its Lua console and your LLM chat. In CONN, identify the windows and calibrate the six required targets.
+2. Run **Preflight** and rehearse with **DRY RUN** on (amber interface).
+3. When the targets are correct, switch to live mode, enter your scenario request and press **Start**.
 
 **First-time calibration is required.** Follow the [Setup Guide](docs/SETUP.md) before allowing live input.
 
