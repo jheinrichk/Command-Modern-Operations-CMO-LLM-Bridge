@@ -1,100 +1,69 @@
-# First-time setup: layout and calibration
+# Setup Guide
 
-Launch the bridge with `python conn.py`. CONN controls a visible LLM chat window
-and the CMO Lua console, so it must be calibrated to your own desktop before a
-live run. The supplied positions are starting examples, not your calibration.
+[Back to overview](../README.md) · [Using CONN](CONN.md)
 
-## 1. Open and identify the windows
+CONN controls a **visible LLM chat window** and **CMO's Lua Script Console** through calibrated desktop actions. Perform this setup once for each distinct desktop/browser layout, and repeat calibration when controls move.
 
-Open CMO with a working scenario, its Lua console, your chosen LLM chat and CONN.
-Use a separate browser window for the chat so its title and position stay
-predictable. Keep the relevant windows visible and unminimized.
+## 1. Install and launch
 
-Launch CONN once, save its settings and close it. In the generated
-`bridge_config.json`, edit `windows.llm.title_regex` to match the actual chat
-window title. For example, `ChatGPT` matches a title containing that text. The
-shipped `LLM` value is a placeholder. Check `windows.llm.exe_regex` against your
-browser executable; the default accepts Edge, Chrome and Firefox. Reopen CONN.
-In **Layout → Refresh windows**, confirm that `llm`, `cmo`, `cmo_lua` and `conn`
-show the intended window titles and rectangles instead of “not found.”
+On Windows, install Python with Tkinter and open PowerShell in the extracted project folder:
 
-The separate **Settings → LLM tab must contain** field is an additional chat
-safety check; it does not replace the window-detection rule above.
+```powershell
+python -m pip install -r requirements.txt
+python conn.py
+```
 
-## 2. Arrange and save the layout
+Open Command: Modern Operations with a disposable scenario, its **Lua Script Console**, and your chosen AI chat in a separate browser window. Keep all windows unminimized. No direct provider API key is required.
 
-Keep **DRY RUN** on during initial setup. Arrange and resize the four windows
-as you want to use them. A practical arrangement places the chat above the Lua
-console, CMO alongside them and CONN where it does not cover the target controls.
-Use your intended browser zoom and Windows display scaling.
+## 2. Identify your windows
 
-In **Layout**, choose **Capture current** and give the profile a recognizable
-name such as `Desktop_2_Monitors`. Select the saved profile; the active profile
-is marked `*`. Profiles retain the window arrangement for the current monitor
-configuration and each operating mode remembers its selected profile.
+Start CONN once and save its settings. In the generated `bridge_config.json`, set `windows.llm.title_regex` to a distinctive part of the real chat window title (for example, `ChatGPT`). The initial `LLM` value is only a placeholder. Restart CONN.
 
-Use **Apply** to restore that arrangement. The Mission checkbox **Apply the
-layout profile when the run starts** restores it automatically before a run.
-Layout positions windows; calibration identifies controls inside those windows.
+In **Layout → Refresh windows**, confirm that the entries for `llm`, `cmo`, `cmo_lua` and `conn` each identify the correct window. The separate Settings option **LLM tab must contain** provides an additional check.
 
-![Calibration controls and Capture point help](images/conn-calibration-tooltip.png)
+## 3. Arrange the desktop
 
-## 3. Capture the six core click targets
+Leave **DRY RUN on** while setting up. Position the CMO window, Lua console, browser and CONN so the buttons you need are visible. In **Layout**, use **Capture current** to save the arrangement, and select that layout as active. **Apply Layout** restores window positions.
 
-On **Calibration**, select one anchor row and press **Capture point**. During
-the countdown, move the pointer onto the actual target and hold it there until
-capture completes. Repeat for these six anchors:
+The layout manages window positions. Calibration, below, tells CONN where to click *within* them.
 
-| Anchor | Place the pointer here |
+## 4. Calibrate six required targets
+
+In **Calibration**, select each anchor and press **Capture point**. During the countdown, hold the pointer over the indicated control.
+
+| Anchor | Point to |
 | --- | --- |
-| `llm_input` | Inside the chat message input field |
-| `llm_submit` | On the chat Send/Submit button |
-| `llm_code_copy` | On the Copy button of a visible Lua code-block response |
-| `cmo_lua_input` | Inside the editable CMO Lua script input area |
-| `cmo_execute` | On the Lua console Execute/Run button |
-| `cmo_output_area` | Inside the Lua console result/output pane |
+| `llm_input` | AI chat message box |
+| `llm_submit` | Chat Send button |
+| `llm_code_copy` | Copy button of a visible Lua code block in chat |
+| `cmo_lua_input` | Editable Lua script input pane |
+| `cmo_execute` | Lua console Execute/Run button |
+| `cmo_output_area` | Lua console results pane |
 
-Have a representative Lua code block visible in the chat before capturing its
-Copy button. Keep the input pane and output pane distinct in the CMO console.
-Confirm each anchor belongs to `llm` or `cmo_lua`, as appropriate, rather than
-`screen` or the wrong window. **Rebind window** lets you change its parent
-window. **Save** writes the configuration.
+Use **Show overlay** to confirm the positions. The anchors are saved relative to their windows, but browser zoom or a changed console layout can still shift controls.
 
-## 4. Calibrate the controls your workflow uses
+![Calibration help in CONN](images/conn-calibration-tooltip.png)
 
-Capture CMO play/pause and time-compression controls if your run will need the
-UI control path. Capture scenario start/reset/reload only when those functions
-are required; their defaults are unset. Configure the LLM attachment method in
-Settings. If using calibrated attachment controls, capture the attach button,
-attach menu and file-dialog anchors. The default Ctrl+U attachment shortcut is
-not supported by every chat interface.
+If you intend to control simulation playback through the UI, also calibrate the applicable play, pause and time-compression buttons. Scenario reset/reload controls start unset and must not be guessed. The default chat attachment shortcut is not supported by every browser; choose and calibrate an attachment method that works in yours.
 
-## 5. Verify and start
+## 5. Check before a live run
 
-Use **Show overlay** to inspect the anchor markers. Run **Preflight → Run
-checks**, resolve the required missing windows/anchors and confirm the chosen
-layout. Rehearse in Dry Run first. **Test click** only logs the intended target
-while Dry Run is on; with Dry Run off it performs one real click after its
-confirmation dialog. A test on Execute or Send can trigger that control.
+1. Run **Preflight → Run checks** and resolve blocking findings.
+2. Rehearse with **DRY RUN** on. Amber means no real click, paste or Lua injection.
+3. Switch off Dry Run only after checking your targets; the interface turns dark blue.
+4. Select the mode and opening stage, type the request and press **Start**.
+5. Use **Pause**, **Step** or **Abort** to control the run. The default global abort shortcut is **Ctrl+Alt+X**.
 
-When the targets are correct, switch Dry Run off. The interface changes from
-amber to its blue/dark live palette and the header reads **DRY RUN off live
-input**. Choose the operating mode and opening stage, enter the scenario
-request and press **Start**. Pause, Step and Abort manage the active run;
-`Ctrl+Alt+X` is the default abort shortcut.
+For an existing scenario, the **AUDIT** opening stage is generally the appropriate first step. Work on a copy until you trust the result.
 
-## When to check calibration again
+## If something moves or fails
 
-Window-relative anchors follow window movement and resize according to their
-stored pixel offset or fractional position. Recheck them after changing browser
-zoom, Windows scaling, monitor arrangement, chat interface, Lua-console pane
-sizes or any control layout. A saved window profile cannot prevent content
-inside a browser page from moving. Recapture affected points and save the
-updated profile when needed.
+- **Wrong window found:** Check window titles and `windows.llm.title_regex`.
+- **Wrong click:** Turn Dry Run on and recapture the affected anchor.
+- **Nothing copied from chat:** Ensure a Lua code block is visible and its Copy button is calibrated.
+- **Attachment fails:** Check the chat application's attachment method and Settings.
+- **Lua errors:** Inspect the output in the CONN Monitor and the saved session.
 
-## Help pop-up tooltips
+Recalibrate after changes to display scaling, browser zoom, window arrangement or chat interface.
 
-Hover over controls to display context-sensitive help pop-up tooltips. These
-explain modes, layout capture, calibration, settings and run controls without
-leaving CONN. The tooltip appears after a short hover delay and does not take
-keyboard focus.
+[Using CONN](CONN.md) explains the operating modes and workflow.

@@ -1,1 +1,0 @@
-CMO LLM Bridge · [Source](https://github.com/jheinrichk/Command-Modern-Operations-CMO-LLM-Bridge) · [Scenario Showcase](Scenario-Showcase) · Unofficial community tooling for Command: Modern Operations.
