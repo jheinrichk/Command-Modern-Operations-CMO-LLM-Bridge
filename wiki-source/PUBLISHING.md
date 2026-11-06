@@ -12,6 +12,16 @@ This folder stores a ready-to-publish GitHub Wiki. The connected GitHub reposito
 6. Create **_Sidebar** and **_Footer** as pages with the contents of `_Sidebar.md` and `_Footer.md`. GitHub renders these as navigation/sidebar/footer.
 7. Verify the image loads and every page link resolves.
 
+## One-command publishing after initialization (Windows)
+
+With Git for Windows installed and your GitHub authentication configured, clone or update the **main repository** locally. Once you have manually saved the first Home page in the GitHub Wiki, run this from the repository folder:
+
+§§§powershell
+powershell -ExecutionPolicy Bypass -File .\wiki-source\Publish-CMOWiki.ps1
+§§§
+
+The script clones the Wiki into a temporary folder, copies the 12 prepared Markdown pages (10 content pages plus sidebar and footer), creates a regular commit and pushes to the existing Wiki default branch. It does **not** force push or delete unrelated pages. If the Wiki has not been initialized, cloning fails with a prompt to save Home first.
+
 ## Faster option: git-backed GitHub Wiki
 
 After the initial Home page is saved, GitHub exposes the Wiki Git remote:
