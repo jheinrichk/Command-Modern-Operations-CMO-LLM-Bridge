@@ -2,6 +2,10 @@
 
 ![CMO LLM Bridge screenshot](Screenshot%202026-10-28%20120109.png)
 
+## Documentation and scenario showcase
+
+The [complete GitHub Wiki source](wiki-source/Home.md) includes setup, CONN controls, the design workflow, safety, RAG, IKE and a [showcase of four jheinrichk Workshop releases](wiki-source/Scenario-Showcase.md). See [Wiki publishing instructions](wiki-source/PUBLISHING.md) for initializing and populating the separate GitHub Wiki.
+
 ## CONN interface
 
 ![CONN interface with Dry Run off](docs/images/conn-live-mode.png)
