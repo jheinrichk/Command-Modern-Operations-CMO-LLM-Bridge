@@ -4,7 +4,7 @@
 
 ## Documentation and scenario showcase
 
-The [complete GitHub Wiki source](wiki-source/Home.md) includes setup, CONN controls, the design workflow, safety, RAG, IKE and a [showcase of four jheinrichk Workshop releases](wiki-source/Scenario-Showcase.md). See [Wiki publishing instructions](wiki-source/PUBLISHING.md) for initializing and populating the separate GitHub Wiki.
+Explore the [project documentation](wiki-source/Home.md), including setup, CONN controls, the design workflow, safety, RAG, IKE, and a [showcase of four jheinrichk Workshop releases](wiki-source/Scenario-Showcase.md).
 
 ## CONN interface
 
