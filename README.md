@@ -1,5 +1,7 @@
 # CMO LLM Bridge
 
+![CMO LLM Bridge screenshot](Screenshot%202026-10-28%20120109.png)
+
 ## CONN interface
 
 ![CONN interface with Dry Run off](docs/images/conn-live-mode.png)
